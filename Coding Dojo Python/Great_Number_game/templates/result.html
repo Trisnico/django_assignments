@@ -1,0 +1,59 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="{{url_for('static', filename='css/number_game.css')}}">
+    <title>Great Number Game</title>
+</head>
+<body>
+<div id="wrapper">
+    <h1>Welcome to the Great Number Game!</h1>
+    <p class="tiny">random={{session['curr_random']}} and you choose {{session['guess']}} </p>
+        
+    <h2>I am thinking of number between 1 and 100.</h2>
+    <h2>Take a guess.</h2>
+
+    {% if session['guess'] == session['curr_random'] %}
+        <div id="correct">
+            <h3>{{session['guess']}} was the number!</h3>
+        </div>
+        <div id="guess">
+            <form action="/correctguess" method="post">
+                <input type="submit" value="Play Again?">
+            </form>
+        </div>
+
+    {% elif session['guess'] > session['curr_random'] %}
+        <div id="toohigh">
+            <h3>Too High!</h3>
+        </div>
+        <div id="guess">
+            <form method="post" action="/returnguess">
+                <select name="guess" p>
+                    {% for x in range(1,101) %}
+                        <option guess={{x}}>{{x}}</option> 
+                    {% endfor %}
+                <br>
+                <input type="submit" value="Choose This">
+            </form>
+        </div>
+
+    {% else %}
+        <div id="toolow">
+            <h3>Too Low!</h3>
+        </div>
+        <div id="guess">
+            <form method="post" action="/returnguess">
+                <select name="guess" p>
+                    {% for x in range(1,101) %}
+                        <option guess={{x}}>{{x}}</option> 
+                    {% endfor %}
+                <br>
+                <input type="submit" value="Choose This">
+            </form>
+        </div>
+    {% endif %}
+
+</body>
+</html>
